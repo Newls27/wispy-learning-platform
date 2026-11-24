@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WISPY | Learning Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main class="welcome-container">
+<section class="welcome-card">
+
+    <!-- WELCOME SCREEN -->
+    <div id="welcomeScreen">
+        <p class="welcome-label">Web-based Interactive School Platform for Young learners</p>
+        <h1>Welcome, Learners!</h1>
+        <p class="description">
+            Explore lessons, discover new knowledge,
+            and learn at your own pace with WISPY.
+        </p>
+        <div class="student-input">
+            <label for="studentID">Student ID</label>
+            <input type="text" id="studentID" placeholder="Enter your participant ID" required>
+        </div>
+        <button class="start-button" id="startButton">Start Learning</button>
+    </div>
+
+    <!-- LEARNING MODE MENU -->
+    <div class="learning-options" id="learningOptions">
+        <h2>Choose Your Learning Mode</h2>
+        <button class="sound-toggle" id="soundToggle">🔊 Sound: ON</button>
+
+        <button class="choice-button" id="lessonButton">
+            <span class="choice-icon">📖</span>
+            <span>Interactive Lesson</span>
+            <small>Calculate compound interest using repeated simple interest</small>
+        </button>
+
+        <!-- NEW: INTERACTIVE PROBLEM SOLVER BUTTON -->
+        <button class="choice-button" id="problemSolverButton">
+            <span class="choice-icon">🧮</span>
+            <span>Interactive Problem Solver</span>
+            <small>Practice solving repeated-interest problems step by step</small>
+        </button>
+
+        <button class="choice-button" id="flashcardButton">
+            <span class="choice-icon">📚</span>
+            <span>Flashcards</span>
+            <small>Review concepts and learn how to solve</small>
+        </button>
+
+        <button class="choice-button" id="quizButton">
+            <span class="choice-icon">✏️</span>
+            <span>Quiz</span>
+            <small>Test your knowledge</small>
+        </button>
+
+        <button class="back-button" id="backButton">← Back</button>
+    </div>
+
+    <!-- INTERACTIVE LESSON SCREEN -->
+    <div id="lessonScreen" class="lesson-screen" style="display: none;">
+        <button id="lessonBackButton" class="back-button">← Back to Learning Menu</button>
+        <div class="lesson-header">
+            <h2>Repeated Applications of Simple Interest</h2>
+            <p>Discover how interest grows when simple interest is applied repeatedly to an increasing amount.</p>
+        </div>
+        <div class="lesson-content" id="lessonContent">
+            <h3>Let's Learn Step by Step!</h3>
+            <p>In this lesson, you will learn how interest is calculated repeatedly by applying simple interest to an updated amount each period.</p>
+            <div class="lesson-example">
+                <h3>Example 1: Let's Start!</h3>
+                <p>Suppose you have a principal of ₱1,000 with an interest rate of 10% per period.</p>
+                <p>Let's calculate the interest earned in the first period.</p>
+                <p class="lesson-hint">Start with Period 1, then continue to Period 2 and Period 3. Click each period to explore its calculations.</p>
+                <div class="lesson-steps">
+                    <div class="lesson-step active" id="period1Card">
+                        <h4>Period 1</h4>
+                        <p>Simple Interest = Principal × Rate × Time</p>
+                        <p>Interest = ₱1,000 × 0.10 × 1</p>
+                        <p><strong>Interest Earned = ₱100</strong></p>
+                        <p>New Amount = ₱1,000 + ₱100 = ₱1,100</p>
+                    </div>
+                    <div class="lesson-step">
+                        <h4>Period 2</h4>
+                        <p>New Principal = ₱1,100</p>
+                        <p>Simple Interest = Principal × Rate × Time</p>
+                        <p>Interest = ₱1,100 × 0.10 × 1</p>
+                        <p><strong>Interest Earned = ₱110</strong></p>
+                        <p>New Amount = ₱1,100 + ₱110 = ₱1,210</p>
+                        <p class="lesson-note">Notice that the interest increased because the new principal is now ₱1,100 instead of ₱1,000.</p>
+                    </div>
+                    <div class="lesson-step">
+                        <h4>Period 3</h4>
+                        <p>New Principal = ₱1,210</p>
+                        <p>Simple Interest = Principal × Rate × Time</p>
+                        <p>Interest = ₱1,210 × 0.10 × 1</p>
+                        <p><strong>Interest Earned = ₱121</strong></p>
+                        <p>New Amount = ₱1,210 + ₱121 = ₱1,331</p>
+                    </div>
+                </div>
+                <div class="lesson-activity">
+                    <h3>🧠 Your Turn!</h3>
+                    <p>Let's see if you can calculate the interest for Period 4.</p>
+                    <p>Principal: ₱1,331</p>
+                    <p>Interest Rate: 10% per period</p>
+                    <p>How much interest will be earned in Period 4?</p>
+                    <input type="number" id="period4Answer" placeholder="Enter your answer">
+                    <button id="checkPeriod4Button">Check Answer</button>
+                    <p id="period4Feedback"></p>
+                    <button id="finishLessonButton">Finish Lesson</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW: INTERACTIVE PROBLEM SOLVER SCREEN -->
+    <div id="problemSolverScreen" class="lesson-screen" style="display: none;">
+        <button id="problemSolverBackButton" class="back-button">← Back to Learning Menu</button>
+        <div class="lesson-header">
+            <h2>Interactive Problem Solver</h2>
+            <p>Work through repeated applications of simple interest one step at a time.</p>
+        </div>
+        <div class="lesson-content" id="problemSolverContent">
+            <h3>Let's solve a problem!</h3>
+            <p>A ₱1,000 investment earns 10% interest per period. At the end of each period, add the interest to the amount before calculating the next period's interest.</p>
+            <p><strong>Question:</strong> What is the total amount after 3 periods?</p>
+            <p id="solverProgress" aria-live="polite">Step 1 of 6</p>
+            <div id="solverStepContent" class="lesson-activity">
+                <h3>Step 1: Find the interest for Period 1</h3>
+                <p>Use: Interest = Current Amount × Rate</p>
+                <p>₱1,000 × 0.10 = ?</p>
+            </div>
+            <label for="solverAnswer">Your answer (₱):</label>
+            <input type="number" id="solverAnswer" placeholder="Enter your answer" step="0.01">
+            <button id="checkSolverAnswerButton">Check Answer</button>
+            <p id="solverFeedback" aria-live="polite"></p>
+            <button id="nextSolverStepButton" style="display: none;">Next Step →</button>
+            <button id="restartSolverButton" style="display: none;">Try Again</button>
+        </div>
+    </div>
+
+    <!-- FLASHCARD SCREEN -->
+    <div class="flashcard-screen" id="flashcardScreen">
+        <div class="flashcard-header">
+            <h2>Simple Interest Review</h2>
+            <p>Learn the concepts, formulas, and steps before taking the quiz.</p>
+        </div>
+        <div class="flashcard-progress">
+            <span id="flashcardCounter">Card 1 of 10</span>
+            <div class="progress-container">
+                <div class="progress-bar" id="flashcardProgressBar"></div>
+            </div>
+        </div>
+        <button class="flashcard" id="flashcard" aria-label="Flip flashcard">
+            <div class="flashcard-inner" id="flashcardInner">
+                <div class="flashcard-front">
+                    <span class="flashcard-label">REVIEW QUESTION</span>
+                    <p id="flashcardQuestion"></p>
+                    <span class="flip-hint">↻ Tap to reveal the answer</span>
+                </div>
+                <div class="flashcard-back">
+                    <span class="flashcard-label">ANSWER & EXPLANATION</span>
+                    <p id="flashcardAnswer"></p>
+                    <span class="flip-hint">↻ Tap to return to the question</span>
+                </div>
+            </div>
+        </button>
+        <div class="flashcard-controls">
+            <button class="flashcard-nav-button" id="previousCardButton">← Previous</button>
+            <button class="flashcard-nav-button" id="flipCardButton">Reveal Answer</button>
+            <button class="flashcard-nav-button" id="nextCardButton">Next →</button>
+        </div>
+        <button class="shuffle-button" id="shuffleCardsButton">🔀 Shuffle Cards</button>
+        <button class="back-button" id="flashcardBackButton">← Learning Modes</button>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div class="quiz-screen" id="quizScreen">
+        <div class="quiz-header">
+            <h2>WISPY Quiz</h2>
+            <p id="questionProgress">Question 1 of 10</p>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="question-card">
+            <div class="topic-label">SIMPLE INTEREST</div>
+            <h3 id="questionText"></h3>
+            <div class="answer-options" id="answerOptions"></div>
+            <div class="feedback-box" id="feedbackBox" aria-live="polite">
+                <p id="feedbackMessage"></p>
+                <p id="explanationText"></p>
+            </div>
+            <button class="next-button" id="nextQuestionButton">Next Question →</button>
+        </div>
+        <button class="back-button quiz-back-button" id="quizBackButton">← Learning Modes</button>
+    </div>
+
+    <!-- RESULTS SCREEN -->
+    <div class="results-screen" id="resultsScreen">
+        <div class="result-icon" id="resultIcon">🏆</div>
+        <h2>Quiz Completed!</h2>
+        <p class="result-subtitle">Great job finishing the WISPY Simple Interest Quiz!</p>
+        <div id="achievementCard" class="mastery-badge">
+    <div id="achievementIcon" class="mastery-trophy">🏆</div>
+    <h2 id="achievementTitle">TOPIC MASTERED!</h2>
+    <p id="achievementMessage">Congratulations! You achieved a perfect score!</p>
+</div>
+        <div class="score-card">
+            <p>Your Score</p>
+            <h3 id="finalScore">0 / 10</h3>
+            <div class="score-percentage" id="scorePercentage">0%</div>
+        </div>
+        <p id="resultMessage" class="result-message"></p>
+        <div id="masteryBadge" class="mastery-badge" style="display: none;">
+    <div class="mastery-trophy">🏆</div>
+    <h2>TOPIC MASTERED!</h2>
+    <p>Congratulations! You achieved a perfect score!</p>
+    <span>WISPY MASTER</span>
+</div>
+        <div id="reviewList" class="review-list"></div>
+        <button class="start-button" id="retryButton">Try Again</button>
+        <button class="back-button" id="resultsBackButton">← Learning Modes</button>
+    </div>
+
+</section>
+</main>
+
+<script>
+// ======================================
+// ELEMENTS
+// ======================================
+
+const welcomeScreen = document.getElementById("welcomeScreen");
+const startButton = document.getElementById("startButton");
+const learningOptions = document.getElementById("learningOptions");
+
+const flashcardButton = document.getElementById("flashcardButton");
+const lessonButton = document.getElementById("lessonButton");
+const lessonBackButton = document.getElementById("lessonBackButton");
+const finishLessonButton = document.getElementById("finishLessonButton");
+const quizButton = document.getElementById("quizButton");
+const backButton = document.getElementById("backButton");
+
+const flashcardScreen = document.getElementById("flashcardScreen");
+const lessonScreen = document.getElementById("lessonScreen");
+const problemSolverButton = document.getElementById("problemSolverButton");
+const problemSolverScreen = document.getElementById("problemSolverScreen");
+const problemSolverBackButton = document.getElementById("problemSolverBackButton");
+
+const flashcard = document.getElementById("flashcard");
+const flashcardInner = document.getElementById("flashcardInner");
+const flashcardQuestion = document.getElementById("flashcardQuestion");
+const flashcardAnswer = document.getElementById("flashcardAnswer");
+const flashcardCounter = document.getElementById("flashcardCounter");
+const flashcardProgressBar = document.getElementById("flashcardProgressBar");
+
+const previousCardButton = document.getElementById("previousCardButton");
+const flipCardButton = document.getElementById("flipCardButton");
+const nextCardButton = document.getElementById("nextCardButton");
+const shuffleCardsButton = document.getElementById("shuffleCardsButton");
+const flashcardBackButton = document.getElementById("flashcardBackButton");
+
+const quizScreen = document.getElementById("quizScreen");
+const quizBackButton = document.getElementById("quizBackButton");
+const questionProgress = document.getElementById("questionProgress");
+const progressBar = document.getElementById("progressBar");
+const questionText = document.getElementById("questionText");
+const answerOptions = document.getElementById("answerOptions");
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackMessage = document.getElementById("feedbackMessage");
+const explanationText = document.getElementById("explanationText");
+const nextQuestionButton = document.getElementById("nextQuestionButton");
+
+const resultsScreen = document.getElementById("resultsScreen");
+const finalScore = document.getElementById("finalScore");
+const scorePercentage = document.getElementById("scorePercentage");
+const resultMessage = document.getElementById("resultMessage");
+const resultIcon = document.getElementById("resultIcon");
+const masteryBadge = document.getElementById("masteryBadge");
+const achievementCard = document.getElementById("achievementCard");
+const achievementIcon = document.getElementById("achievementIcon");
+const achievementTitle = document.getElementById("achievementTitle");
+const achievementMessage = document.getElementById("achievementMessage");
+const reviewList = document.getElementById("reviewList");
+const retryButton = document.getElementById("retryButton");
+const resultsBackButton = document.getElementById("resultsBackButton");
+
+
+// ======================================
+// SOUND EFFECTS
+// ======================================
+
+let audioContext;
+
+function playSound(type) {
+    if (!soundEnabled) return;
+
+    try {
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioClass) return;
+
+        if (!audioContext) audioContext = new AudioClass();
+        if (audioContext.state === "suspended") audioContext.resume();
+
+        let notes;
+        if (type === "correct") {
+            notes = [523.25, 659.25, 783.99];
+        } else if (type === "wrong") {
+            notes = [392.00, 329.63];
+        } else {
+            notes = [523.25, 659.25];
+        }
+
+        notes.forEach((frequency, index) => {
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+
+            oscillator.type = "sine";
+            oscillator.frequency.value = frequency;
+            oscillator.connect(gain);
+            gain.connect(audioContext.destination);
+
+            const start = audioContext.currentTime + index * 0.12;
+            const end = start + 0.20;
+
+            gain.gain.setValueAtTime(0, start);
+            gain.gain.linearRampToValueAtTime(0.12, start + 0.025);
+            gain.gain.exponentialRampToValueAtTime(0.001, end);
+
+            oscillator.start(start);
+            oscillator.stop(end);
+        });
+    } catch (error) {
+        console.log("Sound unavailable:", error);
+    }
+}
+
+
+// ======================================
+// WELCOME SCREEN
+// ======================================
+
+startButton.addEventListener("click", function() {
+    const studentIDInput = document.getElementById("studentID");
+    studentID = studentIDInput.value.trim();
+
+    if (studentID === "") {
+        alert("Please enter your participant ID before starting!");
+        studentIDInput.focus();
+        return;
+    }
+
+    welcomeScreen.style.display = "none";
+    learningOptions.style.display = "flex";
+    playSound("welcome");
+});
+
+backButton.addEventListener("click", function() {
+    learningOptions.style.display = "none";
+    welcomeScreen.style.display = "block";
+});
+
+
+// ======================================
+// FLASHCARD DATA - 10 REVIEW CARDS
+// ======================================
+
+const flashcards = [
+    {
+        question: "1. What is the formula for simple interest?",
+        answer: `SIMPLE INTEREST:
+I = P × r × t
+
+TOTAL AMOUNT:
+A = P + I
+
+Simple interest is calculated using only the original principal.`
+    },
+    {
+        question: "2. What does the principal (P) represent?",
+        answer: `P = PRINCIPAL
+
+The original amount of money borrowed, saved, or invested before interest is added.`
+    },
+    {
+        question: "3. How do you convert 7.5% into decimal form?",
+        answer: `Divide the percent by 100.
+
+7.5 ÷ 100 = 0.075
+
+So, 7.5% = 0.075. Use the decimal form of the rate in the formula.`
+    },
+    {
+        question: "4. What does time (t) mean in simple-interest problems, and what unit should you use?",
+        answer: `Time is the length of the loan or investment.
+
+When the rate is annual, express time in YEARS.
+
+Example: 18 months = 18 ÷ 12 = 1.5 years.`
+    },
+    {
+        question: "5. What steps can you follow to solve a simple-interest problem?",
+        answer: `STEP 1: Identify the principal (P), rate (r), and time (t).
+
+STEP 2: Convert the rate to a decimal.
+
+STEP 3: Convert time to years if the rate is annual.
+
+STEP 4: Substitute into I = P × r × t.
+
+STEP 5: Calculate the interest. If the total amount is asked, use A = P + I.
+
+STEP 6: Round the final money answer to two decimal places when needed.`
+    },
+    {
+        question: "6. EXAMPLE: ₱3,200 is invested at 4.5% simple interest for 2 years. How much interest is earned?",
+        answer: `GIVEN:
+P = ₱3,200
+r = 0.045
+t = 2 years
+
+SOLUTION:
+I = P × r × t
+I = 3,200 × 0.045 × 2
+I = ₱288
+
+INTEREST EARNED: ₱288.00`
+    },
+    {
+        question: "7. If ₱6,500 earns 3% simple interest each year for 5 years, what is the maturity value?",
+        answer: `FIRST, FIND THE INTEREST:
+I = 6,500 × 0.03 × 5
+I = ₱975
+
+THEN, FIND THE TOTAL AMOUNT:
+A = P + I
+A = 6,500 + 975
+
+MATURITY VALUE = ₱7,475.00`
+    },
+    {
+        question: "8. How is simple interest different from compound interest?",
+        answer: `SIMPLE INTEREST is always calculated from the original principal.
+
+COMPOUND INTEREST is calculated from the principal plus accumulated interest.
+
+This review focuses on simple interest.`
+    },
+    {
+        question: "9. What is the difference between interest (I) and the total amount (A)?",
+        answer: `INTEREST (I): The extra money earned or paid.
+
+TOTAL AMOUNT (A): The original principal plus interest.
+
+Formula: A = P + I`
+    },
+    {
+        question: "10. YOUR TURN: A ₱1,500 deposit earns 8% simple interest for 2 years. Find the interest and the total amount.",
+        answer: `GIVEN:
+P = ₱1,500
+r = 0.08
+t = 2 years
+
+FIND INTEREST:
+I = P × r × t
+I = 1,500 × 0.08 × 2
+I = ₱240
+
+FIND TOTAL AMOUNT:
+A = P + I
+A = 1,500 + 240
+A = ₱1,740
+
+ANSWERS:
+Interest = ₱240.00
+Total amount = ₱1,740.00`
+    }
+];
+
+let currentFlashcard = 0;
+let shuffledFlashcards = [...flashcards];
+
+
+// ======================================
+// LESSON AND FLASHCARD FUNCTIONS
+// ======================================
+
+flashcardButton.addEventListener("click", startFlashcards);
+lessonButton.addEventListener("click", startLesson);
+lessonBackButton.addEventListener("click", returnToMenu);
+finishLessonButton.addEventListener("click", returnToMenu);
+document.getElementById("checkPeriod4Button").addEventListener("click", checkPeriod4Answer);
+flashcardBackButton.addEventListener("click", returnToMenu);
+previousCardButton.addEventListener("click", previousFlashcard);
+nextCardButton.addEventListener("click", nextFlashcard);
+flipCardButton.addEventListener("click", flipFlashcard);
+flashcard.addEventListener("click", flipFlashcard);
+shuffleCardsButton.addEventListener("click", shuffleFlashcards);
+
+function startLesson() {
+    learningOptions.style.display = "none";
+    quizScreen.style.display = "none";
+    resultsScreen.style.display = "none";
+    flashcardScreen.style.display = "none";
+    problemSolverScreen.style.display = "none";
+
+    periodCards.forEach(card => card.classList.remove("active"));
+    document.getElementById("period1Card").classList.add("active");
+    lessonScreen.style.display = "flex";
+}
+
+function checkPeriod4Answer() {
+    const answerInput = document.getElementById("period4Answer");
+    const feedback = document.getElementById("period4Feedback");
+    const correctAnswer = 133.1;
+    const userAnswer = Number(answerInput.value);
+
+    if (answerInput.value === "") {
+        feedback.textContent = "Please enter an answer first.";
+        feedback.style.color = "#b42338";
+    } else if (Math.abs(userAnswer - correctAnswer) < 0.01) {
+        feedback.textContent = "Correct! ₱1,331 × 10% = ₱133.10 in interest.";
+        feedback.style.color = "green";
+    } else {
+        feedback.textContent = "Not quite! Try multiplying ₱1,331 by 0.10.";
+        feedback.style.color = "#b42338";
+    }
+}
+
+function startFlashcards() {
+    learningOptions.style.display = "none";
+    quizScreen.style.display = "none";
+    resultsScreen.style.display = "none";
+    lessonScreen.style.display = "none";
+    problemSolverScreen.style.display = "none";
+    flashcardScreen.style.display = "flex";
+
+    shuffledFlashcards = [...flashcards];
+    currentFlashcard = 0;
+    displayFlashcard();
+}
+
+function displayFlashcard() {
+    const card = shuffledFlashcards[currentFlashcard];
+    flashcardInner.classList.remove("flipped");
+    flashcardQuestion.textContent = card.question;
+    flashcardAnswer.textContent = card.answer;
+    flashcardCounter.textContent = `Card ${currentFlashcard + 1} of ${shuffledFlashcards.length}`;
+    flashcardProgressBar.style.width = `${((currentFlashcard + 1) / shuffledFlashcards.length) * 100}%`;
+    flipCardButton.textContent = "Reveal Answer";
+    previousCardButton.disabled = currentFlashcard === 0;
+    nextCardButton.disabled = currentFlashcard === shuffledFlashcards.length - 1;
+}
+
+function flipFlashcard() {
+    flashcardInner.classList.toggle("flipped");
+    flipCardButton.textContent = flashcardInner.classList.contains("flipped") ? "Show Question" : "Reveal Answer";
+    playSound("flip");
+}
+
+function previousFlashcard() {
+    if (currentFlashcard > 0) {
+        currentFlashcard--;
+        displayFlashcard();
+        playSound("flip");
+    }
+}
+
+function nextFlashcard() {
+    if (currentFlashcard < shuffledFlashcards.length - 1) {
+        currentFlashcard++;
+        displayFlashcard();
+        playSound("flip");
+    }
+}
+
+function shuffleFlashcards() {
+    for (let i = shuffledFlashcards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledFlashcards[i], shuffledFlashcards[j]] = [shuffledFlashcards[j], shuffledFlashcards[i]];
+    }
+    currentFlashcard = 0;
+    displayFlashcard();
+    playSound("flip");
+}
+
+function returnToMenu() {
+        quizMonitoring = false;
+    tabWasHidden = false;
+    flashcardScreen.style.display = "none";
+    quizScreen.style.display = "none";
+    resultsScreen.style.display = "none";
+    lessonScreen.style.display = "none";
+    problemSolverScreen.style.display = "none";
+    learningOptions.style.display = "flex";
+}
+
+
+// ======================================
+// INTERACTIVE PROBLEM SOLVER
+// ======================================
+
+const solverProgress = document.getElementById("solverProgress");
+const solverStepContent = document.getElementById("solverStepContent");
+const solverAnswer = document.getElementById("solverAnswer");
+const solverFeedback = document.getElementById("solverFeedback");
+const checkSolverAnswerButton = document.getElementById("checkSolverAnswerButton");
+const nextSolverStepButton = document.getElementById("nextSolverStepButton");
+const restartSolverButton = document.getElementById("restartSolverButton");
+
+const solverSteps = [
+    {
+        title: "Step 1: Find the interest for Period 1",
+        prompt: "Use: Interest = Current Amount × Rate<br>₱1,000 × 0.10 = ?",
+        answer: 100,
+        hint: "Multiply 1,000 by 0.10. Remember, 10% is 0.10.",
+        feedback: "Correct! Period 1 interest is ₱100."
+    },
+    {
+        title: "Step 2: Find the updated amount after Period 1",
+        prompt: "Add the interest to the starting amount:<br>₱1,000 + ₱100 = ?",
+        answer: 1100,
+        hint: "Add the original ₱1,000 and the ₱100 interest.",
+        feedback: "Correct! The updated amount is ₱1,100. This becomes the starting amount for Period 2."
+    },
+    {
+        title: "Step 3: Find the interest for Period 2",
+        prompt: "Use the updated amount:<br>₱1,100 × 0.10 = ?",
+        answer: 110,
+        hint: "Calculate 10% of the new amount, ₱1,100.",
+        feedback: "Correct! Period 2 interest is ₱110."
+    },
+    {
+        title: "Step 4: Find the updated amount after Period 2",
+        prompt: "Add Period 2 interest to the previous amount:<br>₱1,100 + ₱110 = ?",
+        answer: 1210,
+        hint: "Add ₱1,100 and ₱110.",
+        feedback: "Correct! The updated amount is ₱1,210. Use this amount for Period 3."
+    },
+    {
+        title: "Step 5: Find the interest for Period 3",
+        prompt: "Use the latest updated amount:<br>₱1,210 × 0.10 = ?",
+        answer: 121,
+        hint: "Find 10% of ₱1,210.",
+        feedback: "Correct! Period 3 interest is ₱121."
+    },
+    {
+        title: "Step 6: Find the final amount after Period 3",
+        prompt: "Add the Period 3 interest:<br>₱1,210 + ₱121 = ?",
+        answer: 1331,
+        hint: "Add ₱1,210 and ₱121 to get the final amount.",
+        feedback: "Correct! The final amount after 3 periods is ₱1,331."
+    }
+];
+
+let currentSolverStep = 0;
+
+problemSolverButton.addEventListener("click", startProblemSolver);
+problemSolverBackButton.addEventListener("click", returnToMenu);
+checkSolverAnswerButton.addEventListener("click", checkSolverAnswer);
+nextSolverStepButton.addEventListener("click", nextSolverStep);
+restartSolverButton.addEventListener("click", startProblemSolver);
+
+function startProblemSolver() {
+    learningOptions.style.display = "none";
+    lessonScreen.style.display = "none";
+    flashcardScreen.style.display = "none";
+    quizScreen.style.display = "none";
+    resultsScreen.style.display = "none";
+    problemSolverScreen.style.display = "flex";
+
+    currentSolverStep = 0;
+    loadSolverStep();
+}
+
+function loadSolverStep() {
+    const step = solverSteps[currentSolverStep];
+
+    solverAnswer.style.display = "block";
+    solverProgress.textContent = `Step ${currentSolverStep + 1} of ${solverSteps.length}`;
+    solverStepContent.innerHTML = `<h3>${step.title}</h3><p>${step.prompt}</p>`;
+    solverAnswer.value = "";
+    solverAnswer.disabled = false;
+    solverFeedback.textContent = "";
+    solverFeedback.style.color = "";
+    checkSolverAnswerButton.style.display = "inline-block";
+    checkSolverAnswerButton.disabled = false;
+    nextSolverStepButton.style.display = "none";
+    restartSolverButton.style.display = "none";
+}
+
+function checkSolverAnswer() {
+    const step = solverSteps[currentSolverStep];
+
+    if (solverAnswer.value.trim() === "") {
+        solverFeedback.textContent = "Please enter an answer first.";
+        solverFeedback.style.color = "#b42338";
+        return;
+    }
+
+    const answer = Number(solverAnswer.value);
+
+    if (Number.isFinite(answer) && Math.abs(answer - step.answer) < 0.01) {
+        solverFeedback.textContent = step.feedback;
+        solverFeedback.style.color = "green";
+        solverAnswer.disabled = true;
+        checkSolverAnswerButton.disabled = true;
+        nextSolverStepButton.style.display = "inline-block";
+        playSound("correct");
+
+        if (currentSolverStep === solverSteps.length - 1) {
+            nextSolverStepButton.textContent = "See Summary";
+        }
+    } else {
+        solverFeedback.textContent = `Not quite. ${step.hint}`;
+        solverFeedback.style.color = "#b42338";
+        playSound("wrong");
+    }
+}
+
+function nextSolverStep() {
+    if (currentSolverStep < solverSteps.length - 1) {
+        currentSolverStep++;
+        loadSolverStep();
+    } else {
+        showSolverSummary();
+    }
+}
+
+function showSolverSummary() {
+    solverProgress.textContent = "Problem completed!";
+    solverStepContent.innerHTML = `
+        <h3>🎉 Well done!</h3>
+        <p>You solved all six steps.</p>
+        <p>Period 1: ₱1,000 + ₱100 = ₱1,100</p>
+        <p>Period 2: ₱1,100 + ₱110 = ₱1,210</p>
+        <p>Period 3: ₱1,210 + ₱121 = ₱1,331</p>
+        <p><strong>Final amount after 3 periods: ₱1,331.00</strong></p>
+        <p>Notice how each period's interest is calculated using the updated amount from the previous period.</p>
+    `;
+    solverAnswer.style.display = "none";
+    solverAnswer.disabled = true;
+    checkSolverAnswerButton.style.display = "none";
+    nextSolverStepButton.style.display = "none";
+    restartSolverButton.style.display = "inline-block";
+    solverFeedback.textContent = "You have completed the problem-solving activity!";
+    solverFeedback.style.color = "green";
+}
+
+
+// ======================================
+// QUIZ QUESTIONS - 10 ITEMS
+// ======================================
+
+const questions = [
+    {
+        question: "Which statement best describes simple interest?",
+        options: ["Interest is added to the principal each year and then earns more interest", "Interest is calculated only on the original principal", "The interest rate changes every month", "The principal decreases automatically each year"],
+        answer: 1,
+        explanation: "Simple interest is calculated using only the original principal throughout the term."
+    },
+    {
+        question: "A loan has an annual rate of 12%. What decimal should be used for r in the formula?",
+        options: ["1.2", "12", "0.012", "0.12"],
+        answer: 3,
+        explanation: "Convert percent to decimal by dividing by 100: 12 ÷ 100 = 0.12."
+    },
+    {
+        question: "A savings account earns simple interest for 9 months. If the annual rate is used, what value of t should be substituted?",
+        options: ["0.75 year", "9 years", "1.9 years", "0.09 year"],
+        answer: 0,
+        explanation: "Convert months to years: 9 ÷ 12 = 0.75 year."
+    },
+    {
+        question: "How much simple interest will ₱5,600 earn at 7% per year for 3 years?",
+        options: ["₱392", "₱1,008", "₱1,176", "₱1,260"],
+        answer: 2,
+        explanation: "I = P × r × t = 5,600 × 0.07 × 3 = ₱1,176."
+    },
+    {
+        question: "Mika invests ₱9,000 at 2.5% simple interest for 4 years. What is the total amount at the end?",
+        options: ["₱9,225", "₱9,900", "₱10,000", "₱10,250"],
+        answer: 1,
+        explanation: "Interest = 9,000 × 0.025 × 4 = ₱900. Total amount = 9,000 + 900 = ₱9,900."
+    },
+    {
+        question: "A ₱18,000 principal earns 3.2% simple interest for 15 months. How much interest is earned?",
+        options: ["₱576", "₱640", "₱680", "₱720"],
+        answer: 3,
+        explanation: "Convert 15 months to 1.25 years. I = 18,000 × 0.032 × 1.25 = ₱720."
+    },
+    {
+        question: "An investment earns ₱480 simple interest in 2 years at a rate of 4% per year. What was the original principal?",
+        options: ["₱6,000", "₱4,800", "₱5,500", "₱12,000"],
+        answer: 0,
+        explanation: "P = I ÷ (r × t) = 480 ÷ (0.04 × 2) = ₱6,000."
+    },
+    {
+        question: "A borrower pays ₱1,000 in simple interest on a ₱12,500 loan at 8% annually. How long was the loan?",
+        options: ["6 months", "9 months", "1 year", "2 years"],
+        answer: 2,
+        explanation: "t = I ÷ (P × r) = 1,000 ÷ (12,500 × 0.08) = 1 year."
+    },
+    {
+        question: "An investment of ₱10,000 earns ₱1,500 simple interest over 3 years. What is its annual interest rate?",
+        options: ["3%", "5%", "6%", "15%"],
+        answer: 1,
+        explanation: "r = I ÷ (P × t) = 1,500 ÷ (10,000 × 3) = 0.05 = 5%."
+    },
+    {
+        question: "A ₱8,750 investment earns simple interest at 6.4% per year for 11 months. What is the interest rounded to the nearest centavo?",
+        options: ["₱512.33", "₱560.00", "₱640.00", "₱768.00"],
+        answer: 0,
+        explanation: "Convert 11 months to 11/12 year. I = 8,750 × 0.064 × (11/12) = ₱512.333..., which rounds to ₱512.33."
+    }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let soundEnabled = true;
+let tabSwitchCount = 0;
+let quizMonitoring = false;
+let tabWasHidden = false;
+
+document.addEventListener("visibilitychange", function() {
+    if (!quizMonitoring) return;
+
+    if (document.hidden) {
+        tabWasHidden = true;
+    } else if (tabWasHidden) {
+        tabWasHidden = false;
+        tabSwitchCount++;
+
+        if (tabSwitchCount === 1) {
+            alert("Warning: Please stay on the WISPY quiz tab. One more tab switch will restart your quiz.");
+        } else {
+            quizMonitoring = false;
+            alert("Your quiz has been restarted because you switched tabs again.");
+            startQuiz();
+        }
+    }
+});
+const soundToggle = document.getElementById("soundToggle");
+let studentID = "";
+let answered = false;
+let wrongAnswers = [];
+
+soundToggle.addEventListener("click", function() {
+    soundEnabled = !soundEnabled;
+    soundToggle.textContent = soundEnabled ? "🔊 Sound: ON" : "🔇 Sound: OFF";
+});
+
+quizButton.addEventListener("click", startQuiz);
+retryButton.addEventListener("click", startQuiz);
+
+
+// ======================================
+// QUIZ FUNCTIONS
+// ======================================
+
+function startQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    answered = false;
+    wrongAnswers = [];
+
+
+        tabSwitchCount = 0;
+    quizMonitoring = true;
+
+    learningOptions.style.display = "none";
+    resultsScreen.style.display = "none";
+    flashcardScreen.style.display = "none";
+    lessonScreen.style.display = "none";
+    problemSolverScreen.style.display = "none";
+    quizScreen.style.display = "flex";
+
+    showQuestion();
+}
+
+function showQuestion() {
+    answered = false;
+    quizScreen.classList.remove("correct-flash", "wrong-flash");
+    feedbackBox.style.display = "none";
+    nextQuestionButton.style.display = "none";
+
+    const q = questions[currentQuestion];
+    questionProgress.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+    progressBar.style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+    questionText.textContent = q.question;
+    answerOptions.innerHTML = "";
+
+    q.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.className = "answer-button";
+
+        const letter = document.createElement("span");
+        letter.className = "answer-letter";
+        letter.textContent = String.fromCharCode(65 + index);
+
+        const text = document.createElement("span");
+        text.className = "answer-text";
+        text.textContent = option;
+
+        button.appendChild(letter);
+        button.appendChild(text);
+        button.addEventListener("click", function() {
+            selectAnswer(index, button);
+        });
+        answerOptions.appendChild(button);
+    });
+}
+
+function selectAnswer(selectedIndex, selectedButton) {
+    if (answered) return;
+    answered = true;
+
+    const q = questions[currentQuestion];
+    const buttons = answerOptions.querySelectorAll(".answer-button");
+    buttons.forEach(button => button.disabled = true);
+
+    const isCorrect = selectedIndex === q.answer;
+    playSound(isCorrect ? "correct" : "wrong");
+
+    quizScreen.classList.remove("correct-flash", "wrong-flash");
+    void quizScreen.offsetWidth;
+
+    if (isCorrect) {
+        score++;
+        selectedButton.classList.add("correct-answer");
+        quizScreen.classList.add("correct-flash");
+        feedbackMessage.textContent = "✓ Correct! Well done!";
+    } else {
+        selectedButton.classList.add("wrong-answer");
+        buttons[q.answer].classList.add("show-correct");
+        quizScreen.classList.add("wrong-flash");
+        feedbackMessage.textContent = "✗ Not quite! Keep learning!";
+        wrongAnswers.push({
+            number: currentQuestion + 1,
+            question: q.question,
+            chosen: q.options[selectedIndex],
+            correct: q.options[q.answer]
+        });
+    }
+
+    explanationText.textContent = q.explanation;
+    feedbackBox.style.display = "block";
+    nextQuestionButton.style.display = "block";
+    nextQuestionButton.textContent = currentQuestion === questions.length - 1 ? "See My Results →" : "Next Question →";
+
+    setTimeout(function() {
+        quizScreen.classList.remove("correct-flash", "wrong-flash");
+    }, 450);
+}
+
+nextQuestionButton.addEventListener("click", function() {
+    if (!answered) return;
+
+    if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        showQuestion();
+    } else {
+        showResults();
+    }
+});
+
+function showResults() {
+        quizMonitoring = false;
+    tabWasHidden = false;
+    quizScreen.style.display = "none";
+    resultsScreen.style.display = "flex";
+
+    const percentage = Math.round((score / questions.length) * 100);
+
+    // Existing Google Sheets recording connection is preserved.
+    fetch("https://script.google.com/macros/s/AKfycbzLSGqlZELQ8hrLuN1wKL0s6776pbZ2nwLKkkr8NXQEfCUumQLnydvwS70vsmKjUMpg/exec", {
+        method: "POST",
+        body: JSON.stringify({
+            studentID: studentID,
+            score: score,
+            total: questions.length,
+            percentage: percentage
+        })
+    });
+
+    finalScore.textContent = `${score} / ${questions.length}`;
+    scorePercentage.textContent = `${percentage}%`;
+    masteryBadge.style.display = "none";
+    achievementCard.style.display = "block";
+
+    if (percentage === 100) {
+    resultIcon.textContent = "🏆";
+    resultMessage.textContent = "Perfect score! You mastered this quiz!";
+
+    achievementIcon.textContent = "🏆";
+    achievementTitle.textContent = "TOPIC MASTERED!";
+    achievementMessage.textContent = "Congratulations! You achieved a perfect score!";
+
+} else if (percentage >= 80) {
+    resultIcon.textContent = "🌟";
+    resultMessage.textContent = "Excellent work! You have a strong understanding!";
+
+    achievementIcon.textContent = "🌟";
+    achievementTitle.textContent = "ALMOST MASTERED!";
+    achievementMessage.textContent = "Excellent work! You're very close to mastering this topic!";
+
+} else if (percentage >= 60) {
+    resultIcon.textContent = "👏";
+    resultMessage.textContent = "Good job! Keep practicing to improve!";
+
+    achievementIcon.textContent = "👏";
+    achievementTitle.textContent = "GOOD PROGRESS!";
+    achievementMessage.textContent = "You're making progress! Keep practicing!";
+
+} else {
+    resultIcon.textContent = "💪";
+    resultMessage.textContent = "Keep going! Reviewing the explanations can help you improve.";
+
+    achievementIcon.textContent = "💪";
+    achievementTitle.textContent = "KEEP LEARNING!";
+    achievementMessage.textContent = "Review the lesson and try again. You can improve with practice!";
+}
+
+    reviewList.innerHTML = "";
+
+    if (wrongAnswers.length > 0) {
+        const heading = document.createElement("h3");
+        heading.textContent = "Questions to Review";
+        reviewList.appendChild(heading);
+
+        wrongAnswers.forEach(item => {
+            const card = document.createElement("div");
+            card.className = "review-item";
+
+            const question = document.createElement("p");
+            question.textContent = `${item.number}. ${item.question}`;
+
+            const yourAnswer = document.createElement("p");
+            yourAnswer.className = "review-wrong";
+            yourAnswer.textContent = `Your answer: ${item.chosen}`;
+
+            const correctAnswer = document.createElement("p");
+            correctAnswer.className = "review-correct";
+            correctAnswer.textContent = `Correct answer: ${item.correct}`;
+
+            card.appendChild(question);
+            card.appendChild(yourAnswer);
+            card.appendChild(correctAnswer);
+            reviewList.appendChild(card);
+        });
+    } else {
+        reviewList.textContent = "You answered every question correctly!";
+    }
+}
+
+quizBackButton.addEventListener("click", function() {
+    alert("Please complete the quiz before returning to the learning modes.");
+});
+resultsBackButton.addEventListener("click", returnToMenu);
+
+const periodCards = document.querySelectorAll(".lesson-step");
+periodCards.forEach(card => {
+    card.addEventListener("click", () => {
+        periodCards.forEach(c => c.classList.remove("active"));
+        card.classList.add("active");
+    });
+});
+
+</script>
+</body>
+</html>
